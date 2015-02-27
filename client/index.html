@@ -1,18 +1,52 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
+<head lang="jp">
   <meta charset="UTF-8">
-  <title>Hello Gulp JSPM Template</title>
+  <title>Firefox OS ハンズオン フォトギャラリー</title>
 </head>
-<body>
-
+<body ng-app="FxosOsc">
+  <div id="content"></div>
   <div id="app">
-    Application : 
+
+    <p>Some nice places to visit:
+
+    <ul>
+    <li><a href="hello/world">world</a>
+    <li><a href="hello/Cleveland">Cleveland</a>
+    </ul>
+    <button onclick="register()">Register</button>
+    <button onclick="unregister()">Unregister</button>
   </div>
+<script src="https://cdn.socket.io/socket.io-1.3.4.js"></script>
 <script src="jspm_packages/system.js"></script>
 <script src="config.js"></script>
 <script>
   System.import('app/main');
 </script>
+<script type="text/javascript">
+var scope = 'hello/';
+var registration;
+
+function register() {
+  navigator.serviceWorker.register('service-worker.js', {scope: scope})
+    .then(function(r) {
+      console.log('registered: ');
+      registration = r;
+      console.log(registration);
+    })
+    .catch(function(whut) {
+      console.error('uh oh... ');
+      console.error(whut);
+    });
+}
+
+function unregister() {
+  registration.unregister()
+    .then(function() {
+      console.log('unregistered');
+    });
+}
+</script>
+
 </body>
 </html>
